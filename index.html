@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Unlock My Heart ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+  background: linear-gradient(135deg, #ff9ecf, #ffd6eb);
+  overflow: hidden;
+  color: #fff;
+}
+
+.container {
+  margin-top: 80px;
+  transition: 0.5s;
+}
+
+h1, h2 {
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 12px 25px;
+  font-size: 16px;
+  margin: 10px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  background-color: #ff4d88;
+  color: white;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+#heart {
+  font-size: 90px;
+  transition: 0.4s;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Floating hearts */
+.heartFloat {
+  position: absolute;
+  color: pink;
+  font-size: 20px;
+  animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(100vh); opacity: 1; }
+  to { transform: translateY(-10vh); opacity: 0; }
+}
+
+/* Fade in animation */
+.fadeIn {
+  animation: fade 1.5s ease-in-out;
+}
+
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+img {
+  width: 250px;
+  border-radius: 20px;
+  margin-top: 20px;
+  box-shadow: 0px 10px 30px rgba(0,0,0,0.3);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1 id="title">Unlock My Heart 🔒</h1>
+
+  <div id="heart">🤍</div>
+
+  <div id="quiz">
+    <p id="question"></p>
+    <input type="text" id="answerInput" placeholder="Type your answer">
+    <br>
+    <button onclick="checkAnswer()">Submit</button>
+  </div>
+
+  <div id="valentine" class="hidden fadeIn">
+    <h2>Heart Unlocked 🔓</h2>
+    <h1>Will you be my Valentine? 💘</h1>
+    <button onclick="sayYes()">YES 💖</button>
+    <button id="noBtn" onmouseover="moveNo()">NO 😡</button>
+  </div>
+
+  <div id="finalMessage" class="hidden fadeIn">
+    <h1>Yayyyyy!!! ❤️</h1>
+    <p>You are officially stuck with me forever 😁. No refunds 😘.</p>
+    <img src="us.jpg" alt="Us">
+  </div>
+</div>
+
+<audio id="bgMusic" src="love.mp3"></audio>
+
+<script>
+const questions = [
+  { question: "Who said 'I love you' first 😍?", answer: "me" },
+  { question: "Who steals the blanket 👀?", answer: "you" },
+  { question: "Who is the genius among us 🧠?", answer: "you" },
+  { question: "Who is the cutie pie among us 👶", answer: "you" },
+  { question: "Who cooks the best food in the world 🍳?", answer: "you" },
+  { question: "Where did we spend our last valentine 🎈?", answer: "beach" },
+  { question: "What is our special nickname 🎀?", answer: "beboo" }
+];
+
+let currentQuestion = 0;
+
+function loadQuestion() {
+  document.getElementById("question").innerText = questions[currentQuestion].question;
+}
+
+function checkAnswer() {
+  const userAnswer = document.getElementById("answerInput").value.toLowerCase().trim();
+  const correctAnswer = questions[currentQuestion].answer;
+
+  if (userAnswer === correctAnswer) {
+    currentQuestion++;
+    document.getElementById("answerInput").value = "";
+
+    if (currentQuestion === 1) {
+      document.getElementById("heart").innerText = "💗";
+    } else if (currentQuestion === 2) {
+      document.getElementById("heart").innerText = "💖";
+    } else if (currentQuestion === 3) {
+      document.getElementById("heart").innerText = "❤️";
+      document.getElementById("quiz").classList.add("hidden");
+      document.getElementById("valentine").classList.remove("hidden");
+      document.getElementById("title").innerText = "Heart Fully Unlocked 💞";
+      return;
+    }
+
+    loadQuestion();
+  } else {
+    alert("Wrong answer 😏 Try again, Mister Shrijit.");
+  }
+}
+
+function moveNo() {
+  const noBtn = document.getElementById("noBtn");
+  const x = Math.random() * window.innerWidth * 0.7;
+  const y = Math.random() * window.innerHeight * 0.7;
+  noBtn.style.position = "absolute";
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+}
+
+function sayYes() {
+  document.getElementById("valentine").classList.add("hidden");
+  document.getElementById("finalMessage").classList.remove("hidden");
+  document.getElementById("bgMusic").play();
+  launchConfetti();
+}
+
+function launchConfetti() {
+  for (let i = 0; i < 100; i++) {
+    const conf = document.createElement("div");
+    conf.innerHTML = "❤️";
+    conf.classList.add("heartFloat");
+    conf.style.left = Math.random() * 100 + "vw";
+    conf.style.fontSize = Math.random() * 20 + 10 + "px";
+    conf.style.animationDuration = Math.random() * 3 + 3 + "s";
+    document.body.appendChild(conf);
+  }
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
