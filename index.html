@@ -129,19 +129,21 @@ function loadQuestion() {
 }
 
 function checkAnswer() {
-  const userAnswer = document.getElementById("answerInput").value.toLowerCase().trim();
+  const userAnswer =
+    document.getElementById("answerInput").value.toLowerCase().trim();
   const correctAnswer = questions[currentQuestion].answer;
 
   if (userAnswer === correctAnswer) {
     currentQuestion++;
     document.getElementById("answerInput").value = "";
 
-    if (currentQuestion === 1) {
-      document.getElementById("heart").innerText = "💗";
-    } else if (currentQuestion === 2) {
-      document.getElementById("heart").innerText = "💖";
-    } else if (currentQuestion === 3) {
-      document.getElementById("heart").innerText = "❤️";
+    // Update heart gradually
+    const hearts = ["🤍","💗","💖","💘","❤️"];
+    const heartIndex = Math.min(currentQuestion, hearts.length - 1);
+    document.getElementById("heart").innerText = hearts[heartIndex];
+
+    // If all questions answered
+    if (currentQuestion >= questions.length) {
       document.getElementById("quiz").classList.add("hidden");
       document.getElementById("valentine").classList.remove("hidden");
       document.getElementById("title").innerText = "Heart Fully Unlocked 💞";
@@ -153,6 +155,7 @@ function checkAnswer() {
     alert("Wrong answer 😏 Try again, Mister Shrijit.");
   }
 }
+
 
 function moveNo() {
   const noBtn = document.getElementById("noBtn");
